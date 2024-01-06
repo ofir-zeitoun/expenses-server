@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import { connect } from "./db";
 import { routes } from "./routes";
 
 dotenv.config();
@@ -13,5 +14,6 @@ app.use(express.urlencoded()); // Parse URL-encoded bodies using query-string li
 
 app.listen(port, async () => {
   console.log("Server is running on port :", port);
+  await connect();
   routes(app);
 });
