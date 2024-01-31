@@ -14,13 +14,6 @@ const expansesSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-// expansesSchema.pre('save', function(next) {
-//   if (!this._id) {
-//     this._id = new mongoose.Types.ObjectId();
-//   }
-//   next();
-// });
-
 
 export interface ExpanseDocument extends mongoose.Document, Timestamp {
   name: string;
