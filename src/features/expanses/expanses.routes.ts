@@ -20,10 +20,7 @@ router.post(
     try {
       const expenseData = { ...req.body, _id: new mongoose.Types.ObjectId() };
       const newExpense = new ExpansesModel(expenseData);
-      console.log(newExpense);
-      
       await newExpense.save();
-      console.log(newExpense);
       res.status(status.CREATED).json(newExpense);
     } catch (error: unknown) {
       console.log(error);
