@@ -1,4 +1,5 @@
 import { Express } from "express";
+import "express-yields";
 import { healthCheck } from "../features/health-check";
 import expanses from "../features/expanses";
 import { errorHandler, catchAllRequestsLastRouteHandler } from "./middlewares";
