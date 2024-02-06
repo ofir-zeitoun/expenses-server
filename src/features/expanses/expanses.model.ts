@@ -3,7 +3,6 @@ import { Timestamp } from "../../db";
 
 const expansesSchema = new Schema(
   {
-    _id: Schema.ObjectId,
     name: String,
     amount: Number,
     cause: String,
