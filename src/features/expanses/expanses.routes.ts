@@ -14,11 +14,11 @@ router.get("/", async (_req, res) => {
 
 router.get("/:_id", validateResource(expenseIdSchema), async (req: Request, res: Response) => {
   const item = await ExpansesModel.findById(req.params._id);
-
+  
   if (!item) {
     return res.sendStatus(status.NOT_FOUND);
   }
-
+  
   res.status(status.OK).json(item);
 });
 
@@ -27,13 +27,22 @@ router.put("/:_id", validateResource(updateExpensesSchema), async (req: Request,
     req.params._id,
     req.body,
     returnNew
-  ); 
+    ); 
+    
+    if (!updatedExpense) {
+      return res.sendStatus(status.NOT_FOUND);
+  }
+  
+  res.status(status.OK).json(updatedExpense);
+});
 
-  if (!updatedExpense) {
+router.delete("/:_id", validateResource(expenseIdSchema), async (req: Request, res: Response) => {
+  const deletedExpense = await ExpansesModel.findByIdAndDelete(req.params._id);
+
+  if (!deletedExpense) {
     return res.sendStatus(status.NOT_FOUND);
   }
-
-  res.status(status.OK).json(updatedExpense);
+  res.status(status.OK).json(deletedExpense);
 });
 
 export default ["/api/expanses", router] as [string, Router];
