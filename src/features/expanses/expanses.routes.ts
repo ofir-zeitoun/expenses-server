@@ -2,7 +2,7 @@ import { Router, Request, Response } from "express";
 import status from "http-status";
 import { returnNew } from "../../db";
 import { validateResource } from "../../routes/middlewares";
-import { ExpansesModel } from "./expanses.model";
+import { ExpansesModel, Expense } from "./expanses.model";
 import { baseExpensesSchemaNoId , expenseIdSchema , updateExpensesSchema } from "./expanses.routes-schema";
 
 export const router = Router();
@@ -15,7 +15,7 @@ router.get("/", async (_req, res) => {
 router.post(
   "/",
   validateResource(baseExpensesSchemaNoId),
-  async (req: Request<{}, {}, { name: string }>, res: Response) => {
+  async (req: Request<{}, {}, Expense>, res: Response) => {
     const newExpense = await ExpansesModel.create(req.body);
     res.status(status.CREATED).json(newExpense);
   }
