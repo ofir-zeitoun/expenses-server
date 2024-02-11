@@ -10,3 +10,11 @@ export const baseExpensesSchemaNoId = z.object({
     }),
   }),
 }).strict();
+
+export const expenseIdSchema = z.object({
+  params: z.object({
+    _id: z.string().regex(/^[0-9a-fA-F]{24}$/, "ID must be a valid ObjectID"),
+  }),
+});
+
+export const updateExpensesSchema = baseExpensesSchemaNoId.merge(expenseIdSchema);
