@@ -3,7 +3,8 @@ import status from "http-status";
 import { returnNew } from "../../db";
 import { validateResource } from "../../routes/middlewares";
 import { ExpansesModel } from "./expanses.model";
-import { baseExpensesSchemaNoId,updateExpensesSchema } from "./expanses.routes-schema";
+import { baseExpensesSchemaNoId, updateExpensesSchema } from "./expanses.routes-schema";
+
 export const router = Router();
 
 router.get("/", async (_req, res) => {
