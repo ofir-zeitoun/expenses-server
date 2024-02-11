@@ -2,8 +2,8 @@ import { Router, Request, Response } from "express";
 import status from "http-status";
 import { returnNew } from "../../db";
 import { validateResource } from "../../routes/middlewares";
-import { ExpansesModel } from "./expanses.model";
-import { expenseIdSchema , updateExpensesSchema } from "./expanses.routes-schema";
+import { ExpansesModel, Expense } from "./expanses.model";
+import { baseExpensesSchemaNoId , expenseIdSchema , updateExpensesSchema } from "./expanses.routes-schema";
 
 export const router = Router();
 
@@ -11,6 +11,15 @@ router.get("/", async (_req, res) => {
   const items = await ExpansesModel.find({});
   res.status(status.OK).json(items);
 });
+
+router.post(
+  "/",
+  validateResource(baseExpensesSchemaNoId),
+  async (req: Request<{}, {}, Expense>, res: Response) => {
+    const newExpense = await ExpansesModel.create(req.body);
+    res.status(status.CREATED).json(newExpense);
+  }
+);
 
 router.get("/:_id", validateResource(expenseIdSchema), async (req: Request, res: Response) => {
   const item = await ExpansesModel.findById(req.params._id);
