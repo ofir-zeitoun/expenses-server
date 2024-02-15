@@ -1,1 +1,1 @@
-# expanses-server
+# expenses-server

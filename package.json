@@ -1,5 +1,5 @@
 {
-  "name": "expanses-server",
+  "name": "expenses-server",
   "version": "1.0.0",
   "description": "Expanses application's server",
   "main": "./dist/index.js",
@@ -10,10 +10,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ofir-zeitoun/expanses-server.git"
+    "url": "git+https://github.com/ofir-zeitoun/expenses-server.git"
   },
   "keywords": [
-    "expanses",
+    "expenses",
     "typescript",
     "zod",
     "express"
@@ -21,9 +21,9 @@
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ofir-zeitoun/expanses-server/issues"
+    "url": "https://github.com/ofir-zeitoun/expenses-server/issues"
   },
-  "homepage": "https://github.com/ofir-zeitoun/expanses-server#readme",
+  "homepage": "https://github.com/ofir-zeitoun/expenses-server#readme",
   "dependencies": {
     "config": "^3.3.9",
     "cors": "^2.8.5",

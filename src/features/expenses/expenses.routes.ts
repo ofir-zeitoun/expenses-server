@@ -2,8 +2,8 @@ import { Router, Request, Response } from "express";
 import status from "http-status";
 import { returnNew } from "../../db";
 import { validateResource } from "../../routes/middlewares";
-import { ExpansesModel, Expense } from "./expanses.model";
-import { baseExpensesSchemaNoId , expenseIdSchema , updateExpensesSchema } from "./expanses.routes-schema";
+import { ExpansesModel, Expense } from "./expenses.model";
+import { baseExpensesSchemaNoId , expenseIdSchema , updateExpensesSchema } from "./expenses.routes-schema";
 
 export const router = Router();
 
@@ -54,4 +54,4 @@ router.delete("/:_id", validateResource(expenseIdSchema), async (req: Request, r
   res.status(status.OK).json(deletedExpense);
 });
 
-export default ["/api/expanses", router] as [string, Router];
+export default ["/api/expenses", router] as [string, Router];
