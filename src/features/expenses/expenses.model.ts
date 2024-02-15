@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import { Timestamp } from "../../db";
 
-const expansesSchema = new Schema(
+const expensesSchema = new Schema(
   {
     name: String,
     amount: Number,
@@ -24,6 +24,6 @@ export interface ExpanseDocument extends mongoose.Document, Timestamp, Expense {
 }
 
 export const ExpansesModel = mongoose.model<ExpanseDocument>(
-  "expanses",
-  expansesSchema
+  "expenses",
+  expensesSchema
 );
