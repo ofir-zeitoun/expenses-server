@@ -6,8 +6,8 @@ const expensesListSchema = new Schema({
   creator: { type: Schema.Types.ObjectId, ref: 'User'},
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-  expenses_ids: [{ type: Schema.Types.ObjectId, ref: 'Expense' }],
-  users_ids: [{ type: Schema.Types.ObjectId, ref: 'User' }] // No change needed here for optionality
+  expenses_ids: [{ type: Schema.Types.ObjectId, ref: 'expenses' }],
+  users_ids: [{ type: Schema.Types.ObjectId, ref: 'User' }] 
 }, { versionKey: false, timestamps: true });
 
 export type ExpensesList = {
