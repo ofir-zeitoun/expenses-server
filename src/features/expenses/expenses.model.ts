@@ -19,6 +19,7 @@ export type Expense = {
   amount: number;
   date: Date;
 }
+
 export interface ExpanseDocument extends mongoose.Document, Timestamp, Expense {
 
 }
