@@ -13,7 +13,7 @@ export const baseExpensesSchemaNoId = z.object({
 
 export const expenseIdSchema = z.object({
   params: z.object({
-    _id: z.string().regex(/^[0-9a-fA-F]{24}$/, "ID must be a valid ObjectID"),
+    id: z.string().regex(/^[0-9a-fA-F]{24}$/, "ID must be a valid ObjectID"),
   }),
 });
 
