@@ -46,8 +46,8 @@ router.get(
   async (req: Request, res: Response) => {
     const list = await ExpensesListModel.findById(req.params.id)
                   .populate({
-                    path: 'expenses_ids', // הגדר את השדה ל-populate
-                    model: 'expenses' // הגדר את שם המודל שממנו יש ל-populate
+                    path: 'expenses_ids', 
+                    model: 'expenses' 
                   });
 
     if (!list) {
