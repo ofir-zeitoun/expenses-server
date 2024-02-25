@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 
 dotenv.config();
 
-const mongoDBUri: string | undefined = process.env.DBUri;
+const mongoDBUri = process.env.DBUri;
 
 if (!mongoDBUri) {
   console.error('DBUri is not defined in the environment variables');
