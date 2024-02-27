@@ -1,0 +1,28 @@
+{
+    "expensesLists": [
+      {
+        "name": "Monthly Groceries",
+        "creator": "62ce3b9075cec6c0d0cbf34e",
+        "expensesIds": [
+          "65ce2f21ca909d527416f930",
+          "65ce3a28012761b93172c654"
+        ],
+        "usersIds": [
+          "62ce3b9075cec6c0d0cbf34e",
+          "62ce3b8c75cec6c0d0cbf34c"
+        ]
+      },
+      {
+        "name": "Annual Vacation",
+        "creator": "62ce3b8c75cec6c0d0cbf34c",
+        "expensesIds": [
+          "65ce3b0475cec6c0d0cbf34a",
+          "65ce3b8c75cec6c0d0cbf34c"
+        ],
+        "usersIds": [
+          "62ce3b9075cec6c0d0cbf34e",
+          "62ce3b8c75cec6c0d0cbf34c"
+        ]
+      }
+    ]
+  }
