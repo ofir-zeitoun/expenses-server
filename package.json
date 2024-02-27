@@ -7,6 +7,7 @@
     "start": "node ./dist/index.js",
     "dev": "concurrently \"tsc --watch\" \"nodemon -q dist/index.js\"",
     "build": "tsc",
+    "test": "jest",
     "check-mongo": "tsc ./scripts/check-mongo-connection.ts --outDir ./dist/scripts && node ./dist/scripts/check-mongo-connection.js"
   },
   "repository": {
@@ -36,10 +37,14 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
     "concurrently": "^8.2.2",
+    "jest": "^29.7.0",
     "nodemon": "^3.0.2",
+    "ts-jest": "^29.1.2",
     "typescript": "^5.3.3"
   }
 }
