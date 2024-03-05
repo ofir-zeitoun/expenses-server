@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { checkJwt } from "./authentication";
+import { checkJwt } from "../../routes/middlewares/auth0";
 import status from "http-status";
 
 
