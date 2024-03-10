@@ -20,7 +20,7 @@ const expensesSchema = new Schema<Expense>(
   { versionKey: false, timestamps: true }
 );
 
-export const ExpansesModel = mongoose.model<Expense>(
+export const ExpensesModel = mongoose.model<Expense>(
   "expenses",
   expensesSchema
 );
