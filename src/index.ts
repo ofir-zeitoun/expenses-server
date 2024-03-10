@@ -1,19 +1,8 @@
-import express from "express";
-import dotenv from "dotenv";
-import cors from "cors";
+import app from "./app";  // separate the app for testing
 import { connect } from "./db";
-import { routes } from "./routes";
-
-dotenv.config();
-
 const port = process.env.PORT || 1337;
-const app = express();
-app.use(cors());
-app.use(express.json()); // Used to parse JSON bodies
-app.use(express.urlencoded()); // Parse URL-encoded bodies using query-string library
 
-app.listen(port, async () => {
-  console.log("Server is running on port :", port);
+app.listen(port, async (): Promise<void> => {
   await connect();
-  routes(app);
+  console.log(`Server Running here 👉 https://localhost:${port}`);
 });
