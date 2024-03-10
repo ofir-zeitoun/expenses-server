@@ -1,7 +1,6 @@
-// test/models/ExpenseModel.test.ts
 import { describe, it, expect, beforeAll } from "vitest";
 import { connect, disconnect } from "../../db";
-import { ExpensesModel } from "../../features/expenses/expenses.model";
+import { ExpensesModel } from "./expenses.model";
 
 beforeAll(async () => {
   await connect();
