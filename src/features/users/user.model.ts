@@ -1,19 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { Timestamp } from "src/db";
-
-const userSchema = new Schema(
-  {
-    firstName: String,
-    lastName: String,
-    phone: String,
-    email: String,
-    photo: String,
-    password: String,
-  },
-  {
-    timestamps: true,
-  }
-);
+import { Timestamp } from "../../db";
 
 export type User = {
   firstName: string;
@@ -22,8 +8,22 @@ export type User = {
   email: string;
   photo: string;
   password: string;
-};
+} & Timestamp;
 
-export interface UserDocument extends mongoose.Document, Timestamp, User {}
+const userSchema = new Schema<User>(
+  {
+    firstName: String,
+    lastName: String,
+    phone: String,
+    email: String,
+    photo: String,
+    password: String,
+    createdAt: Date,
+    updatedAt: Date,
+  },
+  {
+    timestamps: true,
+  }
+);
 
-export const UserModel = mongoose.model<UserDocument>("users", userSchema);
+export const UserModel = mongoose.model<User>("users", userSchema);
