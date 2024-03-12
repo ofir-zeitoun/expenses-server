@@ -1,30 +1,29 @@
 import mongoose, { Schema } from "mongoose";
+import { Timestamp } from "../../db";
 
-const userSchema = new Schema(
+export type User = {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email: string;
+  photo: string;
+  password: string;
+} & Timestamp;
+
+const userSchema = new Schema<User>(
   {
-    firstName: {
-      type: String,
-    },
-    lastName: {
-      type: String,
-    },
-    phone: {
-      type: Number,
-    },
-    email: {
-      type: String,
-    },
-    photo: {
-      type: String,
-    },
-    password: {
-      type: String,
-    },
+    firstName: String,
+    lastName: String,
+    phone: String,
+    email: String,
+    photo: String,
+    password: String,
+    createdAt: Date,
+    updatedAt: Date,
   },
   {
     timestamps: true,
   }
 );
 
-const UserModel = mongoose.model("User", userSchema);
-module.exports = { UserModel };
+export const UserModel = mongoose.model<User>("users", userSchema);
