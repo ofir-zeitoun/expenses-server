@@ -1,7 +1,14 @@
 import mongoose, { Schema } from "mongoose";
 import { Timestamp } from "../../db";
 
-const expensesSchema = new Schema(
+export type Expense = {
+  name: string;
+  cause: string;
+  amount: number;
+  date: Date;
+} & Timestamp;
+
+const expensesSchema = new Schema<Expense>(
   {
     name: String,
     amount: Number,
@@ -13,17 +20,7 @@ const expensesSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-export type Expense = {
-  name: string;
-  cause: string;
-  amount: number;
-  date: Date;
-}
-export interface ExpanseDocument extends mongoose.Document, Timestamp, Expense {
-
-}
-
-export const ExpansesModel = mongoose.model<ExpanseDocument>(
+export const ExpansesModel = mongoose.model<Expense>(
   "expenses",
   expensesSchema
 );

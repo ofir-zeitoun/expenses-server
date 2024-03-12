@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node ./dist/index.js",
     "dev": "concurrently \"tsc --watch\" \"nodemon -q dist/index.js\"",
-    "build": "tsc"
+    "build": "tsc",
+    "check-mongo": "tsc ./scripts/check-mongo-connection.ts --outDir ./dist/scripts && node ./dist/scripts/check-mongo-connection.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "express-oauth2-jwt-bearer": "^1.6.0",
     "express-yields": "^1.1.2",
     "http-status": "^1.7.3",
     "mongoose": "^8.0.3",
