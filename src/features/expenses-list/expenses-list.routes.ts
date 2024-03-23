@@ -9,13 +9,11 @@ import {
 } from "./expenses-list.routes-schema";
 import { ExpansesModel } from "../expenses/expenses.model";
 
-import expensesListsMock from '../../mocks/expensesListsMock.json';
 
 export const router = Router();
 
 router.get("/", async (_req, res) => {
   const lists = await ExpensesListModel.find({});
-  console.log(expensesListsMock);
   res.status(status.OK).json(lists);
 });
 
