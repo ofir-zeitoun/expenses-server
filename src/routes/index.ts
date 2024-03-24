@@ -7,8 +7,10 @@ import {
   catchAllRequestsLastRouteHandler,
   checkJwt,
 } from "./middlewares";
+import userRoutes from "../features/users/users.routes";
 
 export const routes = (app: Express) => {
+  app.use(...userRoutes);
   app.get(...healthCheck);
   app.use(checkJwt, () => {});
   app.use(...expenses);
