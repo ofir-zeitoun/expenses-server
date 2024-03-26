@@ -10,9 +10,9 @@ import {
 import userRoutes from "../features/users/users.routes";
 
 export const routes = (app: Express) => {
+  app.get(...healthCheck);
   app.use(checkJwt, () => {});
   app.use(...userRoutes);
-  app.get(...healthCheck);
   app.use(...expenses);
   // add custom error handler middleware as the last middleware
   app.use(catchAllRequestsLastRouteHandler, errorHandler);
