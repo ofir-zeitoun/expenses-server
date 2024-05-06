@@ -71,4 +71,4 @@ router.get("/", async (req, res) => {
   }
 });
 
-export default ["/mock/stats", router];
+export default ["/api/stats", router];

@@ -68,4 +68,4 @@ router.get("/", async (req, res) => {
   }
 });
 
-export default ["/mock/expense-lists", router];
+export default ["/api/expense-lists", router];
