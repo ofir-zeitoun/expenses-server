@@ -13,7 +13,7 @@ import {
 
 export const routes = (app: Express) => {
   app.get(...healthCheck);
-  // app.use(checkJwt, () => {});
+  app.use(checkJwt, () => {});
   app.use(...expenses);
   // app.use(...expensesList);
   app.use(...expensesListMock);
