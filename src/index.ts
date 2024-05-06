@@ -14,6 +14,6 @@ app.use(express.urlencoded()); // Parse URL-encoded bodies using query-string li
 
 app.listen(port, async () => {
   console.log("Server is running on port :", port);
-  await connect();
+  // await connect();
   routes(app);
 });
