@@ -1,93 +1,61 @@
 import { Router, Request, Response } from "express";
 import status from "http-status";
 import { validateResource } from "../../routes/middlewares";
-import { ExpensesListModel, ExpensesList } from "./expenses-list.model";
+import { ExpensesListModel, ExpensesListDocument } from "./expenses-list.model";
 import {
   baseExpensesListSchemaNoId,
   expensesListIdSchema,
   updateExpensesListSchema,
 } from "./expenses-list.routes-schema";
-import { ExpansesModel } from "../expenses/expenses.model";
-
+import { ExpensesModel } from "../expenses/expenses.model";
 
 export const router = Router();
 
-router.get("/", async (_req, res) => {
-  const lists = await ExpensesListModel.find({});
-  res.status(status.OK).json(lists);
+router.get("/", async (req, res) => {
+  try {
+    console.log("Received request for fetching expense lists.");
+
+    const offset = parseInt(req.query.offset as string, 10) || 0;
+    const limit = parseInt(req.query.limit as string, 10) || 10;
+    const sortOrder = (req.query.sortOrder as "asc" | "desc") || "desc";
+
+    const lists = await ExpensesListModel.find({})
+      .populate("creator", "name image")
+      .populate({
+        path: "expenses",
+        populate: {
+          path: "creator",
+          select: "name image",
+        },
+      })
+      .sort({ createdAt: sortOrder === "asc" ? 1 : -1 })
+      .skip(offset)
+      .limit(limit);
+
+    const listsWithTotal = lists.map((list) => {
+      const totalExpenses = list.expenses.reduce(
+        (total: number, expense: { price: number }) => total + expense.price,
+        0
+      );
+      return {
+        ...list.toObject(),
+        totalExpenses,
+      };
+    });
+
+    const totalLists = await ExpensesListModel.countDocuments();
+
+    res.status(status.OK).json({
+      offset: offset,
+      limit: limit,
+      sortOrder: sortOrder,
+      total: totalLists,
+      data: listsWithTotal,
+    });
+  } catch (error) {
+    console.error("Failed to fetch expenses lists:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
-router.post(
-  "/",
-  validateResource(baseExpensesListSchemaNoId),
-  async (req: Request<{}, {}, ExpensesList>, res: Response) => {
-    const expensesIds = req.body.expenses_ids.map((id) => id.toString());
-    const validExpensesIds = await Promise.all(
-      expensesIds.map((id) => ExpansesModel.exists({ _id: id }))
-    );
-    const allExpensesExist = validExpensesIds.every(Boolean);
-    if (!allExpensesExist) {
-      return res
-        .status(400)
-        .json({
-          message: "One or more of the provided expenses_ids do not exist.",
-        });
-    }
-
-    const newList = await ExpensesListModel.create(req.body);
-    res.status(status.CREATED).json(newList);
-  }
-);
-
-router.get(
-  "/:id",
-  validateResource(expensesListIdSchema),
-  async (req: Request, res: Response) => {
-    const list = await ExpensesListModel.findById(req.params.id)
-                  .populate({
-                    path: 'expenses_ids', 
-                    model: 'expenses' 
-                  });
-
-    if (!list) {
-      return res.sendStatus(status.NOT_FOUND);
-    }
-
-    res.status(status.OK).json(list);
-  }
-);
-
-router.put(
-  "/:id",
-  validateResource(updateExpensesListSchema),
-  async (req: Request, res: Response) => {
-    const updatedList = await ExpensesListModel.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
-
-    if (!updatedList) {
-      return res.sendStatus(status.NOT_FOUND);
-    }
-
-    res.status(status.OK).json(updatedList);
-  }
-);
-
-router.delete(
-  "/:id",
-  validateResource(expensesListIdSchema),
-  async (req: Request, res: Response) => {
-    const deletedList = await ExpensesListModel.findByIdAndDelete(
-      req.params.id
-    );
-
-    if (!deletedList) {
-      return res.sendStatus(status.NOT_FOUND);
-    }
-    res.status(status.OK).json(deletedList);
-  }
-);
-
-export default ["/api/expenses-lists", router] as [string, Router];
+export default ["/api/expenses-list", router] as [string, Router];

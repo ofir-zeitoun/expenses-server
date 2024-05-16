@@ -1,26 +1,29 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 import { Timestamp } from "../../db";
 
-export type Expense = {
+export interface Expense extends Document, Timestamp {
   name: string;
   cause: string;
-  amount: number;
+  price: number;
   date: Date;
-} & Timestamp;
+  creator: mongoose.Types.ObjectId;
+}
 
-const expensesSchema = new Schema<Expense>(
+const expenseSchema = new Schema<Expense>(
   {
-    name: String,
-    amount: Number,
-    cause: String,
-    date: Date,
-    createdAt: Date,
-    updatedAt: Date,
+    name: { type: String, required: true },
+    price: { type: Number, required: true },
+    cause: { type: String, required: false },
+    date: { type: Date, required: false },
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now },
+    creator: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: false,
+    },
   },
   { versionKey: false, timestamps: true }
 );
 
-export const ExpansesModel = mongoose.model<Expense>(
-  "expenses",
-  expensesSchema
-);
+export const ExpensesModel = mongoose.model<Expense>("Expenses", expenseSchema);

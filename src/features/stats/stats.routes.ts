@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { promises as fs } from "fs";
 import path from "path";
-// import { ExpenseList, Expense } from "../types"; // Assuming you have these types defined somewhere
 
 export interface Expense {
   _id: string;
@@ -30,24 +29,40 @@ export interface ExpenseList {
 export const router = Router();
 
 router.get("/", async (req, res) => {
-  const jsonPath = path.join(
+  const jsonPath = path.resolve(
     __dirname,
     "..",
     "..",
+    "..",
+    "scripts",
     "mock",
     "expensesListsMock.json"
   );
+  console.log(jsonPath);
 
   try {
     const data = await fs.readFile(jsonPath, "utf8");
-    const expensesListData: { expenseLists: ExpenseList[] } = JSON.parse(data);
+    let expensesListData: { expensesList: ExpenseList[] };
 
-    const totalLists = expensesListData.expenseLists.length;
-    const totalExpenses = expensesListData.expenseLists.reduce(
+    try {
+      expensesListData = JSON.parse(data);
+    } catch (parseError) {
+      throw new Error("Invalid JSON format");
+    }
+
+    if (
+      !expensesListData.expensesList ||
+      !Array.isArray(expensesListData.expensesList)
+    ) {
+      throw new Error("Invalid JSON structure");
+    }
+
+    const totalLists = expensesListData.expensesList.length;
+    const totalExpenses = expensesListData.expensesList.reduce(
       (sum, list) => sum + list.expenses.length,
       0
     );
-    const totalAmount = expensesListData.expenseLists.reduce((sum, list) => {
+    const totalPrice = expensesListData.expensesList.reduce((sum, list) => {
       const listTotal = list.expenses.reduce(
         (sum, expense: Expense) => sum + expense.price,
         0
@@ -55,20 +70,23 @@ router.get("/", async (req, res) => {
       return sum + listTotal;
     }, 0);
     const uniqueUserIds = new Set(
-      expensesListData.expenseLists.map((list) => list.creator._id)
+      expensesListData.expensesList.map((list) => list.creator._id)
     );
     const totalUsers = uniqueUserIds.size;
 
     res.json({
       totalLists,
       totalExpenses,
-      totalAmount,
+      totalPrice,
       totalUsers,
     });
   } catch (error) {
-    console.error("Failed to read the expenses list file:", error);
+    console.error(
+      "Failed to read the expenses list file:",
+      (error as Error).message
+    );
     res.status(500).send("Internal Server Error");
   }
 });
 
-export default ["/api/stats", router];
+export default ["/api/stats", router] as [string, Router];

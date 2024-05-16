@@ -2,7 +2,7 @@ import { Router, Request, Response } from "express";
 import status from "http-status";
 import { ID, returnNew } from "../../db";
 import { validateResource } from "../../routes/middlewares";
-import { ExpansesModel, Expense } from "./expenses.model";
+import { ExpensesModel, Expense } from "./expenses.model";
 import {
   baseExpensesSchemaNoId,
   expenseIdSchema,
@@ -11,25 +11,32 @@ import {
 
 export const router = Router();
 
+// Get all expenses
 router.get("/", async (_req, res) => {
-  const items = await ExpansesModel.find({});
+  const items = await ExpensesModel.find({}).populate("creator", "name image");
   res.status(status.OK).json(items);
 });
 
+// Create a new expense
 router.post(
   "/",
   validateResource(baseExpensesSchemaNoId),
   async (req: Request<unknown, unknown, Expense>, res: Response) => {
-    const newExpense = await ExpansesModel.create(req.body);
+    const newExpense = await ExpensesModel.create(req.body);
+    await newExpense.populate("creator", "name image");
     res.status(status.CREATED).json(newExpense);
   }
 );
 
+// Get an expense by ID
 router.get(
   "/:id",
   validateResource(expenseIdSchema),
   async (req: Request<ID>, res: Response) => {
-    const item = await ExpansesModel.findById(req.params.id);
+    const item = await ExpensesModel.findById(req.params.id).populate(
+      "creator",
+      "name image"
+    );
 
     if (!item) {
       return res.sendStatus(status.NOT_FOUND);
@@ -43,11 +50,11 @@ router.put(
   "/:id",
   validateResource(updateExpensesSchema),
   async (req: Request<ID>, res: Response) => {
-    const updatedExpense = await ExpansesModel.findByIdAndUpdate(
+    const updatedExpense = await ExpensesModel.findByIdAndUpdate(
       req.params.id,
       req.body,
       returnNew
-    );
+    ).populate("creator", "name image");
 
     if (!updatedExpense) {
       return res.sendStatus(status.NOT_FOUND);
@@ -61,7 +68,7 @@ router.delete(
   "/:id",
   validateResource(expenseIdSchema),
   async (req: Request<ID>, res: Response) => {
-    const deletedExpense = await ExpansesModel.findByIdAndDelete(req.params.id);
+    const deletedExpense = await ExpensesModel.findByIdAndDelete(req.params.id);
 
     if (!deletedExpense) {
       return res.sendStatus(status.NOT_FOUND);
