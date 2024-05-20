@@ -2,7 +2,7 @@
   "name": "expenses-server",
   "version": "1.0.0",
   "description": "Expanses application's server",
-  "main": "./src/index.ts",
+  "main": "./dist/index.js",
   "scripts": {
     "start": "node ./dist/index.js",
     "dev": "concurrently \"tsc --watch\" \"nodemon -q ./dist/index.js\"",
@@ -29,14 +29,13 @@
   "dependencies": {
     "config": "^3.3.9",
     "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
+    "dotenv": "^16.4.5",
     "express": "^4.18.2",
     "express-oauth2-jwt-bearer": "^1.6.0",
     "express-yields": "^1.1.2",
-    "fs": "^0.0.1-security",
     "http-status": "^1.7.3",
     "mongoose": "^8.0.3",
-    "zod": "^3.22.4"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

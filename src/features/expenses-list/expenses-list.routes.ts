@@ -1,24 +1,27 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
 import status from "http-status";
 import { validateResource } from "../../routes/middlewares";
-import { ExpensesListModel, ExpensesListDocument } from "./expenses-list.model";
-import {
-  baseExpensesListSchemaNoId,
-  expensesListIdSchema,
-  updateExpensesListSchema,
-} from "./expenses-list.routes-schema";
-import { ExpensesModel } from "../expenses/expenses.model";
+import { querySchema } from "./expenses-list.routes-schema";
+import { ExpensesModel, Expense } from "../expenses/expenses.model";
+import { ExpensesListModel, ExpensesList } from "./expenses-list.model";
 
 export const router = Router();
 
-router.get("/", async (req, res) => {
+router.get("/", validateResource(querySchema), async (req, res) => {
+  console.log("Received request for fetching expense lists.");
+
+  const parsedQuery = querySchema.safeParse(req.query);
+  if (!parsedQuery.success) {
+    return res
+      .status(status.BAD_REQUEST)
+      .json({ errors: parsedQuery.error.errors });
+  }
+
+  const { offset = "0", limit = "10", sortOrder = "desc" } = parsedQuery.data;
+  const offsetNumber = parseInt(offset, 10);
+  const limitNumber = parseInt(limit, 10);
+
   try {
-    console.log("Received request for fetching expense lists.");
-
-    const offset = parseInt(req.query.offset as string, 10) || 0;
-    const limit = parseInt(req.query.limit as string, 10) || 10;
-    const sortOrder = (req.query.sortOrder as "asc" | "desc") || "desc";
-
     const lists = await ExpensesListModel.find({})
       .populate("creator", "name image")
       .populate({
@@ -29,14 +32,15 @@ router.get("/", async (req, res) => {
         },
       })
       .sort({ createdAt: sortOrder === "asc" ? 1 : -1 })
-      .skip(offset)
-      .limit(limit);
+      .skip(offsetNumber)
+      .limit(limitNumber);
 
     const listsWithTotal = lists.map((list) => {
       const totalExpenses = list.expenses.reduce(
-        (total: number, expense: { price: number }) => total + expense.price,
+        (total: number, expense: Expense) => total + expense.price,
         0
       );
+
       return {
         ...list.toObject(),
         totalExpenses,
@@ -46,15 +50,15 @@ router.get("/", async (req, res) => {
     const totalLists = await ExpensesListModel.countDocuments();
 
     res.status(status.OK).json({
-      offset: offset,
-      limit: limit,
+      offset: offsetNumber,
+      limit: limitNumber,
       sortOrder: sortOrder,
       total: totalLists,
       data: listsWithTotal,
     });
   } catch (error) {
     console.error("Failed to fetch expenses lists:", error);
-    res.status(500).send("Internal Server Error");
+    res.status(status.INTERNAL_SERVER_ERROR).send("Internal Server Error");
   }
 });
 

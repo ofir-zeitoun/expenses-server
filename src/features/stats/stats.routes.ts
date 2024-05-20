@@ -1,30 +1,8 @@
 import { Router } from "express";
 import { promises as fs } from "fs";
 import path from "path";
-
-export interface Expense {
-  _id: string;
-  createdAt: string;
-  name: string;
-  price: number;
-  creator: {
-    _id: string;
-    name: string;
-    image: string;
-  };
-}
-
-export interface ExpenseList {
-  _id: string;
-  name: string;
-  createdAt: string;
-  creator: {
-    _id: string;
-    name: string;
-    image: string;
-  };
-  expenses: Expense[];
-}
+import { ExpensesModel, Expense } from "../expenses/expenses.model";
+import { ExpensesList } from "../expenses-list/expenses-list.model";
 
 export const router = Router();
 
@@ -42,7 +20,7 @@ router.get("/", async (req, res) => {
 
   try {
     const data = await fs.readFile(jsonPath, "utf8");
-    let expensesListData: { expensesList: ExpenseList[] };
+    let expensesListData: { expensesList: ExpensesList[] };
 
     try {
       expensesListData = JSON.parse(data);
@@ -58,19 +36,28 @@ router.get("/", async (req, res) => {
     }
 
     const totalLists = expensesListData.expensesList.length;
+
+    // Load all expenses
+    const allExpenses = await ExpensesModel.find({});
+    const expenseMap = new Map<string, Expense>(
+      allExpenses.map((expense) => [expense._id.toString(), expense])
+    );
+
     const totalExpenses = expensesListData.expensesList.reduce(
       (sum, list) => sum + list.expenses.length,
       0
     );
+
     const totalPrice = expensesListData.expensesList.reduce((sum, list) => {
-      const listTotal = list.expenses.reduce(
-        (sum, expense: Expense) => sum + expense.price,
-        0
-      );
+      const listTotal = list.expenses.reduce((sum, expenseId) => {
+        const expense = expenseMap.get(expenseId.toString());
+        return expense ? sum + expense.price : sum;
+      }, 0);
       return sum + listTotal;
     }, 0);
+
     const uniqueUserIds = new Set(
-      expensesListData.expensesList.map((list) => list.creator._id)
+      expensesListData.expensesList.map((list) => list.creator.toString())
     );
     const totalUsers = uniqueUserIds.size;
 
