@@ -1,16 +1,12 @@
+import * as dotenv from "dotenv";
 import mongoose, { isValidObjectId } from "mongoose";
-import {
-  ExpensesListModel,
-  ExpensesList,
-} from "../src/features/expenses-list/expenses-list.model";
+import { ExpensesListModel } from "../src/features/expenses-list/expenses-list.model";
 import {
   ExpensesModel,
   Expense,
 } from "../src/features/expenses/expenses.model";
 import { UserModel } from "../src/features/users/user.model";
 import data from "./mock/expensesListsMock.json";
-import * as dotenv from "dotenv";
-
 import {
   ExpensesListSchema,
   JSONExpensesList,
@@ -28,11 +24,11 @@ const importData = async () => {
     }
 
     await mongoose.connect(mongodbUri);
+
     await UserModel.deleteMany();
     await ExpensesModel.deleteMany();
     await ExpensesListModel.deleteMany();
 
-    // Validate data using zod
     const validLists = (data.expensesList as JSONExpensesList[])
       .filter((list) => isValidObjectId(list.creator._id))
       .map((list) => {
@@ -43,6 +39,8 @@ const importData = async () => {
         return {
           ...parsedList,
           creator: new mongoose.Types.ObjectId(parsedList.creator._id),
+          creatorName: parsedList.creator.name,
+          creatorImage: parsedList.creator.image,
           createdAt: isValidDate(createdAt) ? createdAt : new Date(),
           updatedAt: isValidDate(updatedAt) ? updatedAt : new Date(),
           expenses: parsedList.expenses.map((expense: JSONExpense) => {
@@ -53,6 +51,8 @@ const importData = async () => {
               ...expense,
               _id: new mongoose.Types.ObjectId(expense._id),
               creator: new mongoose.Types.ObjectId(expense.creator._id),
+              creatorName: expense.creator.name,
+              creatorImage: expense.creator.image,
               createdAt: isValidDate(expenseCreatedAt)
                 ? expenseCreatedAt
                 : new Date(),
@@ -64,66 +64,66 @@ const importData = async () => {
         };
       });
 
-    await Promise.all(
-      validLists.map(async (list) => {
-        let creator = await UserModel.findById(list.creator);
-        if (!creator) {
-          creator = await UserModel.findOneAndUpdate(
-            { _id: list.creator },
-            { _id: list.creator },
-            { upsert: true, new: true }
-          );
-        }
+    for (const list of validLists) {
+      let creator = await UserModel.findById(list.creator);
+      if (!creator) {
+        creator = new UserModel({
+          _id: list.creator,
+          name: list.creatorName,
+          image: list.creatorImage,
+        });
+        await creator.save();
+      }
 
-        const expenses = await Promise.all(
-          list.expenses.map(async (expense) => {
-            if (!isValidObjectId(expense.creator)) {
-              console.warn(
-                `Invalid ObjectId for expense creator: ${expense.creator}`
-              );
-              return null;
-            }
-
-            let expenseCreator = await UserModel.findById(expense.creator);
-            if (!expenseCreator) {
-              expenseCreator = await UserModel.findOneAndUpdate(
-                { _id: expense.creator },
-                { _id: expense.creator },
-                { upsert: true, new: true }
-              );
-            }
-
-            if (!expenseCreator) {
-              console.warn(`Expense creator not found: ${expense.creator}`);
-              return null;
-            }
-
-            await ExpensesModel.updateOne(
-              { _id: expense._id },
-              {
-                ...expense,
-                creator: expenseCreator._id,
-              },
-              { upsert: true }
+      const expenses = await Promise.all(
+        list.expenses.map(async (expense) => {
+          if (!isValidObjectId(expense.creator)) {
+            console.warn(
+              `Invalid ObjectId for expense creator: ${expense.creator}`
             );
+            return null;
+          }
 
-            return expense._id;
-          })
-        );
+          let expenseCreator = await UserModel.findById(expense.creator);
+          if (!expenseCreator) {
+            expenseCreator = new UserModel({
+              _id: expense.creator,
+              name: expense.creatorName,
+              image: expense.creatorImage,
+            });
+            await expenseCreator.save();
+          }
 
-        const validExpenses = expenses.filter((e) => e !== null);
+          if (!expenseCreator) {
+            console.warn(`Expense creator not found: ${expense.creator}`);
+            return null;
+          }
 
-        await ExpensesListModel.updateOne(
-          { _id: list._id },
-          {
-            ...list,
-            creator: creator ? creator._id : null,
-            expenses: validExpenses as mongoose.Types.ObjectId[],
-          },
-          { upsert: true }
-        );
-      })
-    );
+          await ExpensesModel.updateOne(
+            { _id: expense._id },
+            {
+              ...expense,
+              creator: expenseCreator._id,
+            },
+            { upsert: true }
+          );
+
+          return expense._id;
+        })
+      );
+
+      const validExpenses = expenses.filter((e) => e !== null);
+
+      await ExpensesListModel.updateOne(
+        { _id: list._id },
+        {
+          ...list,
+          creator: creator ? creator._id : null,
+          expenses: validExpenses as mongoose.Types.ObjectId[],
+        },
+        { upsert: true }
+      );
+    }
 
     console.log("Data Imported!!");
     process.exit();
