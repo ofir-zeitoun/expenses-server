@@ -74,9 +74,11 @@ export const ExpensesListSchema = z.object({
 });
 
 export const querySchema = z.object({
-  offset: z.string().optional(),
-  limit: z.string().optional(),
-  sortOrder: z.enum(["asc", "desc"]).optional(),
+  query: z.object({
+    offset: z.coerce.number().optional(),
+    limit: z.coerce.number().optional(),
+    sortOrder: z.enum(["asc", "desc"]).optional(),
+  }),
 });
 
 export type JSONExpense = z.infer<typeof ExpenseSchema>;

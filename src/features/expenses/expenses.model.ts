@@ -1,11 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { Timestamp } from "../../db";
 
-const dateFields = {
-  createdAt: { type: Date, default: Date.now, required: true },
-  updatedAt: { type: Date, default: Date.now, required: true },
-};
-
 export interface Expense extends Document, Timestamp {
   name: string;
   cause: string;
@@ -20,11 +15,10 @@ const expenseSchema = new Schema<Expense>(
     price: { type: Number, required: true },
     cause: { type: String, required: false },
     date: { type: Date, required: false },
-    ...dateFields,
     creator: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: false,
+      required: true,
     },
   },
   { versionKey: false, timestamps: true }

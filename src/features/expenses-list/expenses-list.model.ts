@@ -2,10 +2,6 @@ import mongoose, { Schema, Document, Types } from "mongoose";
 import { Timestamp } from "../../db";
 import { Expense } from "../expenses/expenses.model"; // Import the missing 'Expenses' type
 
-const dateFields = {
-  createdAt: { type: Date, default: Date.now, required: true },
-  updatedAt: { type: Date, default: Date.now, required: true },
-};
 export interface ExpensesList extends Document, Timestamp {
   name: string;
   creator: Types.ObjectId;
@@ -19,7 +15,6 @@ const expensesListSchema = new Schema<ExpensesList>(
     creator: { type: Schema.Types.ObjectId, ref: "User", required: true },
     expenses: [{ type: Schema.Types.ObjectId, ref: "Expenses" }],
     users_ids: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    ...dateFields,
   },
   { versionKey: false, timestamps: true }
 );
