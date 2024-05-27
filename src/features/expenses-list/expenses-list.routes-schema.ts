@@ -27,53 +27,7 @@ export const expensesListIdSchema = z.object({
 export const updateExpensesListSchema =
   baseExpensesListSchemaNoId.merge(expensesListIdSchema);
 
-export const ExpenseSchema = z.object({
-  _id: z.string(),
-  createdAt: z
-    .string()
-    .default(() => new Date().toISOString())
-    .refine((val) => !isNaN(new Date(val).valueOf()), {
-      message: "Invalid date",
-    }),
-  updatedAt: z
-    .string()
-    .default(() => new Date().toISOString())
-    .refine((val) => !isNaN(new Date(val).valueOf()), {
-      message: "Invalid date",
-    }),
-  name: z.string(),
-  price: z.number(),
-  creator: z.object({
-    _id: z.string(),
-    name: z.string(),
-    image: z.string(),
-  }),
-});
-
-export const ExpensesListSchema = z.object({
-  _id: z.string(),
-  name: z.string(),
-  createdAt: z
-    .string()
-    .default(() => new Date().toISOString())
-    .refine((val) => !isNaN(new Date(val).valueOf()), {
-      message: "Invalid date",
-    }),
-  updatedAt: z
-    .string()
-    .default(() => new Date().toISOString())
-    .refine((val) => !isNaN(new Date(val).valueOf()), {
-      message: "Invalid date",
-    }),
-  creator: z.object({
-    _id: z.string(),
-    name: z.string(),
-    image: z.string(),
-  }),
-  expenses: z.array(ExpenseSchema),
-});
-
-export const querySchema = z.object({
+export const paginationSchema = z.object({
   query: z.object({
     offset: z.coerce.number().optional(),
     limit: z.coerce.number().optional(),
@@ -81,5 +35,8 @@ export const querySchema = z.object({
   }),
 });
 
-export type JSONExpense = z.infer<typeof ExpenseSchema>;
-export type JSONExpensesList = z.infer<typeof ExpensesListSchema>;
+export interface Pagination extends qs.ParsedQs {
+  offset: string;
+  limit: string;
+  sortOrder: "asc" | "desc";
+}

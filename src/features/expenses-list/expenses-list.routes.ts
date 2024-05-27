@@ -1,20 +1,16 @@
 import { Router, Request, Response } from "express";
 import status from "http-status";
 import { validateResource } from "../../routes/middlewares";
-import { querySchema } from "./expenses-list.routes-schema";
-import { Expense } from "../expenses/expenses.model";
+import { Pagination, paginationSchema } from "./expenses-list.routes-schema";
+import type { Expense } from "../expenses/expenses.model";
 import { ExpensesListModel } from "./expenses-list.model";
 
 export const router = Router();
-interface QueryParams extends qs.ParsedQs {
-  offset: string;
-  limit: string;
-  sortOrder: "asc" | "desc";
-}
+
 router.get(
   "/",
-  validateResource(querySchema),
-  async (req: Request<any, any, any, QueryParams>, res: Response) => {
+  validateResource(paginationSchema),
+  async (req: Request<any, any, any, Pagination>, res: Response) => {
     console.log("Received request for fetching expense lists.");
 
     const offsetNumber = parseInt(req.query.offset);
