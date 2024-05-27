@@ -13,10 +13,11 @@ import users from "../features/users";
 
 export const routes = (app: Express) => {
   app.get(...healthCheck);
+  app.use(...stats);
   app.use(checkJwt, () => {});
   app.use(...users);
   app.use(...expenses);
   app.use(...expensesList);
-  app.use(...stats);
+
   app.use(catchAllRequestsLastRouteHandler, errorHandler);
 };
