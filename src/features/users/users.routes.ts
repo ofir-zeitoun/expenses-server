@@ -7,7 +7,7 @@ import {
   userIdSchema,
   updateUserSchema,
 } from "./users.routes-schema";
-import { UserModel } from "./user.model";
+import { UserModel } from "./users.model";
 
 const router = Router();
 
