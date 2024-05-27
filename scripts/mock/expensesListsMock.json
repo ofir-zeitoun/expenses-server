@@ -1,0 +1,362 @@
+{
+  "expensesList": [
+    {
+      "_id": "507f1f77bcf86cd799439011",
+      "name": "Office Expenses",
+      "createdAt": "2021-03-01T10:00:00Z",
+      "creator": {
+        "_id": "507f191e810c19729de860ea",
+        "name": "Alice",
+        "image": "https://example.com/images/alice.jpg"
+      },
+      "expenses": [
+        {
+          "_id": "507f1f77bcf86cd799439012",
+          "createdAt": "2023-03-02T10:00:00Z",
+          "name": "Groceries",
+          "price": 100,
+          "creator": {
+            "_id": "507f191e810c19729de860eb",
+            "name": "Bob",
+            "image": "https://example.com/images/bob.jpg"
+          }
+        },
+        {
+          "_id": "507f1f77bcf86cd799439013",
+          "createdAt": "2023-03-03T10:00:00Z",
+          "name": "Utilities",
+          "price": 80,
+          "creator": {
+            "_id": "507f191e810c19729de860ec",
+            "name": "Charlie",
+            "image": "https://example.com/images/charlie.jpg"
+          }
+        },
+        {
+          "_id": "507f1f77bcf86cd799439014",
+          "createdAt": "2023-03-04T10:00:00Z",
+          "name": "Internet",
+          "price": 60,
+          "creator": {
+            "_id": "507f191e810c19729de860ed",
+            "name": "Dan",
+            "image": "https://example.com/images/dan.jpg"
+          }
+        }
+      ]
+    },
+    {
+      "_id": "507f1f77bcf86cd799439021",
+      "name": "Project X",
+      "createdAt": "2021-04-05T10:00:00Z",
+      "creator": {
+        "_id": "507f191e810c19729de860ef",
+        "name": "Frank",
+        "image": "https://example.com/images/frank.jpg"
+      },
+      "expenses": [
+        {
+          "_id": "507f1f77bcf86cd799439022",
+          "createdAt": "2023-03-06T10:00:00Z",
+          "name": "Snacks",
+          "price": 15,
+          "creator": {
+            "_id": "507f191e810c19729de860ec",
+            "name": "Charlie",
+            "image": "https://example.com/images/charlie.jpg"
+          }
+        },
+        {
+          "_id": "507f1f77bcf86cd799439023",
+          "createdAt": "2023-03-07T10:00:00Z",
+          "name": "Parking",
+          "price": 5,
+          "creator": {
+            "_id": "507f191e810c19729de860ed",
+            "name": "Dan",
+            "image": "https://example.com/images/dan.jpg"
+          }
+        }
+      ]
+    },
+    {
+      "_id": "507f1f77bcf86cd799439024",
+      "name": "List 1",
+      "createdAt": "2022-01-08T10:00:00Z",
+      "creator": {
+        "_id": "507f191e810c19729de860f0",
+        "name": "Grace",
+        "image": "https://example.com/images/grace.jpg"
+      },
+      "expenses": [
+        {
+          "_id": "507f1f77bcf86cd799439025",
+          "createdAt": "2023-03-09T10:00:00Z",
+          "name": "Theatre",
+          "price": 60,
+          "creator": {
+            "_id": "507f191e810c19729de860ea",
+            "name": "Alice",
+            "image": "https://example.com/images/alice.jpg"
+          }
+        },
+        {
+          "_id": "507f1f77bcf86cd799439026",
+          "createdAt": "2023-03-10T10:00:00Z",
+          "name": "Lunch",
+          "price": 30,
+          "creator": {
+            "_id": "507f191e810c19729de860eb",
+            "name": "Bob",
+            "image": "https://example.com/images/bob.jpg"
+          }
+        },
+        {
+          "_id": "507f1f77bcf86cd799439027",
+          "createdAt": "2023-03-11T10:00:00Z",
+          "name": "Gas",
+          "price": 50,
+          "creator": {
+            "_id": "507f191e810c19729de860ec",
+            "name": "Charlie",
+            "image": "https://example.com/images/charlie.jpg"
+          }
+        },
+        {
+          "_id": "507f1f77bcf86cd799439028",
+          "createdAt": "2023-03-12T10:00:00Z",
+          "name": "Electric Scooter Rental",
+          "price": 20,
+          "creator": {
+            "_id": "507f191e810c19729de860ed",
+            "name": "Dan",
+            "image": "https://example.com/images/dan.jpg"
+          }
+        }
+      ]
+    },
+    {
+      "_id": "507f1f77bcf86cd799439998",
+      "name": "List 2",
+      "createdAt": "2022-02-08T10:00:00Z",
+      "creator": {
+        "_id": "507f191e810c19729de860f0",
+        "name": "Grace",
+        "image": "https://example.com/images/grace.jpg"
+      },
+      "expenses": []
+    },
+    {
+      "_id": "507f1f77bcf86cd799439999",
+      "name": "List 3",
+      "createdAt": "2023-01-08T10:00:00Z",
+      "creator": {
+        "_id": "507f191e810c19729de860f0",
+        "name": "Grace",
+        "image": "https://example.com/images/grace.jpg"
+      },
+      "expenses": [
+        {
+          "_id": "507f1f77bcf86cd799439022",
+          "createdAt": "2023-03-06T10:00:00Z",
+          "name": "Snacks",
+          "price": 15,
+          "creator": {
+            "_id": "507f191e810c19729de860ec",
+            "name": "Charlie",
+            "image": "https://example.com/images/charlie.jpg"
+          }
+        },
+        {
+          "_id": "507f1f77bcf86cd799439023",
+          "createdAt": "2023-03-07T10:00:00Z",
+          "name": "Parking",
+          "price": 5,
+          "creator": {
+            "_id": "507f191e810c19729de860ed",
+            "name": "Dan",
+            "image": "https://example.com/images/dan.jpg"
+          }
+        }
+      ]
+    },
+    {
+      "_id": "507f1f76bcf86cd799439393",
+      "name": "List 4",
+      "createdAt": "2023-04-17T10:00:00Z",
+      "creator": {
+        "_id": "507f191e810c19729de860f1",
+        "name": "Hannah",
+        "image": "https://example.com/images/hannah.jpg"
+      },
+      "expenses": [
+        {
+          "_id": "601f1f77bcf86cd799439100",
+          "createdAt": "2024-03-18T10:00:00Z",
+          "name": "Coffee",
+          "price": 20,
+          "creator": {
+            "_id": "601f191e810c19729de86100",
+            "name": "Eva",
+            "image": "https://example.com/images/eva.jpg"
+          }
+        },
+        {
+          "_id": "601f1f77bcf86cd799439101",
+          "createdAt": "2024-03-18T11:00:00Z",
+          "name": "Transportation",
+          "price": 50,
+          "creator": {
+            "_id": "601f191e810c19729de86101",
+            "name": "Frank",
+            "image": "https://example.com/images/frank.jpg"
+          }
+        },
+        {
+          "_id": "601f1f77bcf86cd799439102",
+          "createdAt": "2024-03-18T12:00:00Z",
+          "name": "Lunch",
+          "price": 30,
+          "creator": {
+            "_id": "601f191e810c19729de86102",
+            "name": "Gina",
+            "image": "https://example.com/images/gina.jpg"
+          }
+        },
+        {
+          "_id": "601f1f77bcf86cd799439103",
+          "createdAt": "2024-03-18T13:00:00Z",
+          "name": "Books",
+          "price": 80,
+          "creator": {
+            "_id": "601f191e810c19729de86103",
+            "name": "Hank",
+            "image": "https://example.com/images/hank.jpg"
+          }
+        },
+        {
+          "_id": "601f1f77bcf86cd799439104",
+          "createdAt": "2024-03-18T14:00:00Z",
+          "name": "Software Subscription",
+          "price": 120,
+          "creator": {
+            "_id": "601f191e810c19729de86104",
+            "name": "Ivy",
+            "image": "https://example.com/images/ivy.jpg"
+          }
+        },
+        {
+          "_id": "601f1f77bcf86cd799439105",
+          "createdAt": "2024-03-18T15:00:00Z",
+          "name": "Gym Membership",
+          "price": 45,
+          "creator": {
+            "_id": "601f191e810c19729de86105",
+            "name": "Jack",
+            "image": "https://example.com/images/jack.jpg"
+          }
+        },
+        {
+          "_id": "601f1f77bcf86cd799439106",
+          "createdAt": "2024-03-18T16:00:00Z",
+          "name": "Concert Tickets",
+          "price": 90,
+          "creator": {
+            "_id": "601f191e810c19729de86106",
+            "name": "Kara",
+            "image": "https://example.com/images/kara.jpg"
+          }
+        },
+        {
+          "_id": "601f1f77bcf86cd799439107",
+          "createdAt": "2024-03-18T17:00:00Z",
+          "name": "Office Supplies",
+          "price": 35,
+          "creator": {
+            "_id": "601f191e810c19729de86107",
+            "name": "Leo",
+            "image": "https://example.com/images/leo.jpg"
+          }
+        },
+        {
+          "_id": "601f1f77bcf86cd799439108",
+          "createdAt": "2024-03-18T18:00:00Z",
+          "name": "Dinner",
+          "price": 70,
+          "creator": {
+            "_id": "601f191e810c19729de86108",
+            "name": "Mia",
+            "image": "https://example.com/images/mia.jpg"
+          }
+        },
+        {
+          "_id": "601f1f77bcf86cd799439109",
+          "createdAt": "2024-03-18T19:00:00Z",
+          "name": "Birthday Gift",
+          "price": 60,
+          "creator": {
+            "_id": "601f191e810c19729de86109",
+            "name": "Nate",
+            "image": "https://example.com/images/nate.jpg"
+          }
+        },
+        {
+          "_id": "601f1f77bcf86cd799439110",
+          "createdAt": "2024-03-18T20:00:00Z",
+          "name": "Electronics",
+          "price": 200,
+          "creator": {
+            "_id": "601f191e810c19729de86110",
+            "name": "Olivia",
+            "image": "https://example.com/images/olivia.jpg"
+          }
+        },
+        {
+          "_id": "601f1f77bcf86cd799439111",
+          "createdAt": "2024-03-18T21:00:00Z",
+          "name": "Online Course",
+          "price": 150,
+          "creator": {
+            "_id": "601f191e810c19729de86111",
+            "name": "Pete",
+            "image": "https://example.com/images/pete.jpg"
+          }
+        }
+      ]
+    },
+    {
+      "_id": "506f1f77bcf86cd799431111",
+      "name": "List 5",
+      "createdAt": "2024-05-18T10:00:00Z",
+      "creator": {
+        "_id": "507f191e810c19729de860f2",
+        "name": "Ian",
+        "image": "https://example.com/images/ian.jpg"
+      },
+      "expenses": [
+        {
+          "_id": "701f1f77bcf86cd799439200",
+          "createdAt": "2024-03-19T10:00:00Z",
+          "name": "Health Insurance",
+          "price": 300,
+          "creator": {
+            "_id": "701f191e810c19729de86200",
+            "name": "Quinn",
+            "image": "https://example.com/images/quinn.jpg"
+          }
+        },
+        {
+          "_id": "701f1f77bcf86cd799439201",
+          "createdAt": "2024-03-19T11:00:00Z",
+          "name": "Car Maintenance",
+          "price": 150,
+          "creator": {
+            "_id": "701f191e810c19729de86201",
+            "name": "Rachel",
+            "image": "https://example.com/images/rachel.jpg"
+          }
+        }
+      ]
+    }
+  ]
+}

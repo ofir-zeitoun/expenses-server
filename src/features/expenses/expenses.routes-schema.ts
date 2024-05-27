@@ -9,7 +9,7 @@ export const baseExpensesSchemaNoId = z.object({
       message: "Date must be a valid date string",
     }),
   }),
-})
+});
 
 export const expenseIdSchema = z.object({
   params: z.object({
