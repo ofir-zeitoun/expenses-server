@@ -11,13 +11,11 @@ import {
 
 export const router = Router();
 
-// Get all expenses
 router.get("/", async (_req, res) => {
   const items = await ExpensesModel.find({}).populate("creator", "name image");
   res.status(status.OK).json(items);
 });
 
-// Create a new expense
 router.post(
   "/",
   validateResource(baseExpensesSchemaNoId),
@@ -28,7 +26,6 @@ router.post(
   }
 );
 
-// Get an expense by ID
 router.get(
   "/:id",
   validateResource(expenseIdSchema),

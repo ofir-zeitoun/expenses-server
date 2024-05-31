@@ -54,5 +54,40 @@ router.delete(
     res.status(status.OK).json(deleteUser);
   }
 );
+router.post("/check", async (req: Request, res: Response) => {
+  const { auth0Id, name, email, picture } = req.body;
+
+  const user = await UserModel.findOne({ auth0Id });
+
+  if (user) {
+    return res.status(status.OK).json({ exists: true, user });
+  } else {
+    return res
+      .status(status.OK)
+      .json({ exists: false, auth0Id, name, email, picture });
+  }
+});
+
+router.post("/register", async (req: Request, res: Response) => {
+  const { auth0Id, name, phone, email, picture } = req.body;
+
+  const existingUser = await UserModel.findOne({ auth0Id });
+  if (existingUser) {
+    return res
+      .status(status.BAD_REQUEST)
+      .json({ message: "User already exists" });
+  }
+
+  const newUser = new UserModel({
+    auth0Id,
+    name,
+    phone,
+    email,
+    photo: picture,
+  });
+  await newUser.save();
+
+  res.status(status.CREATED).json(newUser);
+});
 
 export default ["/api/users", router] as [string, Router];
