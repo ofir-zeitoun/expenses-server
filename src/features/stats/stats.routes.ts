@@ -6,32 +6,30 @@ import { UserModel } from "../users/users.model";
 export const router = Router();
 
 router.get("/", async (req, res) => {
-  try {
-    const totalLists = await ExpensesListModel.countDocuments();
-    const totalExpenses = await ExpensesModel.countDocuments();
-    const totalUsers = await UserModel.countDocuments();
-    const totalPriceAggregate = await ExpensesModel.aggregate([
-      {
-        $group: {
-          _id: null,
-          totalPrice: { $sum: "$price" },
+  const [totalLists, totalExpenses, totalUsers, totalPriceAggregate] =
+    await Promise.all([
+      ExpensesListModel.countDocuments(),
+      ExpensesModel.countDocuments(),
+      UserModel.countDocuments(),
+      ExpensesModel.aggregate([
+        {
+          $group: {
+            _id: null,
+            totalPrice: { $sum: "$price" },
+          },
         },
-      },
+      ]),
     ]);
 
-    const totalPrice =
-      totalPriceAggregate.length > 0 ? totalPriceAggregate[0].totalPrice : 0;
+  const totalPrice =
+    totalPriceAggregate.length > 0 ? totalPriceAggregate[0].totalPrice : 0;
 
-    res.json({
-      totalLists,
-      totalExpenses,
-      totalPrice,
-      totalUsers,
-    });
-  } catch (error) {
-    console.error("Failed to retrieve stats:", (error as Error).message);
-    res.status(500).send("Internal Server Error");
-  }
+  res.json({
+    totalLists,
+    totalExpenses,
+    totalPrice,
+    totalUsers,
+  });
 });
 
 export default ["/api/stats", router] as [string, Router];
