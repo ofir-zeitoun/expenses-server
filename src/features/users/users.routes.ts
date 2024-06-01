@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import status from "http-status";
-import { returnNew } from "../../db";
+import { returnNew, UserRequest } from "../../db";
 import { validateResource } from "../../routes/middlewares";
 import {
   baseUserSchemaNoId,
@@ -54,17 +54,15 @@ router.delete(
     res.status(status.OK).json(deleteUser);
   }
 );
-router.post("/check", async (req: Request, res: Response) => {
-  const { auth0Id, name, email, picture } = req.body;
+router.get("/check", async (req: UserRequest, res: Response) => {
+  const auth0Id = req.user?.sub;
 
   const user = await UserModel.findOne({ auth0Id });
 
   if (user) {
     return res.status(status.OK).json({ exists: true, user });
   } else {
-    return res
-      .status(status.OK)
-      .json({ exists: false, auth0Id, name, email, picture });
+    return res.status(status.OK).json({ exists: false, auth0Id });
   }
 });
 

@@ -16,17 +16,17 @@ export const router = Router();
 router.get(
   "/",
   validateResource(paginationSchema),
-  async (req: UserRequest, res: Response, next: NextFunction) => {
+  async (req: UserRequest, res: Response) => {
     const offsetNumber = parseInt(req.query.offset as string);
     const limitNumber = parseInt(req.query.limit as string);
 
     const lists = await ExpensesListModel.find({})
-      .populate("creator", "name image")
+      .populate("creator")
       .populate({
         path: "expenses",
         populate: {
           path: "creator",
-          select: "name image",
+          select: "name photo",
         },
       })
       .sort({ createdAt: req.query.sortOrder === "asc" ? 1 : -1 })
@@ -60,7 +60,7 @@ router.get(
 router.post(
   "/",
   validateResource(baseExpensesListSchemaNoId),
-  async (req: UserRequest, res: Response, next: NextFunction) => {
+  async (req: UserRequest, res: Response) => {
     const { name } = req.body;
     const creator = req.user?.sub;
 
@@ -91,20 +91,13 @@ router.post(
 router.delete(
   "/:id",
   validateResource(queryParamsValidator),
-  async (req: UserRequest, res: Response, next: NextFunction) => {
+  async (req: UserRequest, res: Response) => {
     const { id } = req.params;
-
-    try {
-      const deletedList = await ExpensesListModel.findByIdAndDelete(id);
-
-      if (!deletedList) {
-        return res.status(status.NOT_FOUND).json({ message: "List not found" });
-      }
-
-      res.status(status.OK).json({ message: "List deleted successfully" });
-    } catch (error) {
-      next(error);
+    const deletedList = await ExpensesListModel.findByIdAndDelete(id);
+    if (!deletedList) {
+      return res.status(status.NOT_FOUND).json({ message: "List not found" });
     }
+    res.status(status.OK).json({ message: "List deleted successfully" });
   }
 );
 
