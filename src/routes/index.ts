@@ -1,5 +1,6 @@
 import { Express } from "express";
 import "express-yields";
+import swaggerUi from "swagger-ui-express";
 import expenses from "../features/expenses";
 import expensesList from "../features/expenses-list";
 import { healthCheck } from "../features/health-check";
@@ -10,10 +11,16 @@ import {
   checkJwt,
 } from "./middlewares";
 import users from "../features/users";
+import { options } from "../swagger";
 
 export const routes = (app: Express) => {
   app.get(...healthCheck);
   app.use(...stats);
+  app.use(
+    "/docs",
+    swaggerUi.serve,
+    swaggerUi.setup(options)
+  );
   app.use(checkJwt, () => {});
   app.use(...users);
   app.use(...expenses);
