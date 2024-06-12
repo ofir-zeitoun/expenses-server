@@ -1,24 +1,21 @@
 import { AuthResult } from "express-oauth2-jwt-bearer";
-import { Request } from "express";
 
 export type ID = {
   id: string;
 };
 
-export interface UserRequest extends Request {
+export type UserAuth = {
   user?: {
-    sub: string;
+    sub?: string;
   };
-}
+};
 
-export interface AuthRequest extends Request {
+export type AuthRequest = {
   auth?: AuthResult & {
     payload: {
       sub: string;
     };
   };
-  user?: {
-    sub: string;
-  };
+
   userId?: string;
-}
+} & UserAuth;

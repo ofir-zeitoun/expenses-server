@@ -1,8 +1,8 @@
 import * as dotenv from "dotenv";
 import { Request, Response, NextFunction } from "express";
-import { auth, AuthResult } from "express-oauth2-jwt-bearer";
+import { auth } from "express-oauth2-jwt-bearer";
+import { AuthRequest, UserAuth } from "../../db";
 import { UserModel } from "../../features/users/users.model";
-import { AuthRequest } from "../../db";
 dotenv.config();
 
 export const checkJwt = auth({
@@ -11,8 +11,8 @@ export const checkJwt = auth({
 });
 
 export const extractUserInfo = (
-  req: AuthRequest,
-  res: Response,
+  req: Request & UserAuth,
+  _res: Response,
   next: NextFunction
 ) => {
   if (req.auth) {
@@ -24,7 +24,7 @@ export const extractUserInfo = (
 };
 
 export const checkUserExists = async (
-  req: AuthRequest,
+  req: Request & AuthRequest,
   res: Response,
   next: NextFunction
 ) => {

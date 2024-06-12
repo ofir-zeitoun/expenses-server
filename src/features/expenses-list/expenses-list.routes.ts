@@ -1,6 +1,6 @@
-import { Router, Request, Response, NextFunction } from "express";
+import { Router, Request, Response } from "express";
 import status from "http-status";
-import { UserRequest } from "../../db/@types";
+import type { UserAuth } from "../../db/@types";
 import { validateResource } from "../../routes/middlewares";
 import type { Expense } from "../expenses/expenses.model";
 import { UserModel } from "../users/users.model";
@@ -16,9 +16,17 @@ export const router = Router();
 router.get(
   "/",
   validateResource(paginationSchema),
-  async (req: UserRequest, res: Response) => {
-    const offsetNumber = parseInt(req.query.offset as string);
-    const limitNumber = parseInt(req.query.limit as string);
+  async (
+    req: Request<
+      unknown,
+      unknown,
+      unknown,
+      { offset: string; limit: string; sortOrder: string }
+    >,
+    res: Response
+  ) => {
+    const offsetNumber = parseInt(req.query.offset);
+    const limitNumber = parseInt(req.query.limit);
 
     const lists = await ExpensesListModel.find({})
       .populate("creator")
@@ -60,8 +68,11 @@ router.get(
 router.post(
   "/",
   validateResource(baseExpensesListSchemaNoId),
-  async (req: UserRequest, res: Response) => {
-    const { name } = req.body;
+  async (
+    req: Request<unknown, unknown, { name: string }> & UserAuth,
+    res: Response
+  ) => {
+    const name = req.body?.name;
     const creator = req.user?.sub;
 
     if (!name || !creator) {
@@ -91,7 +102,7 @@ router.post(
 router.delete(
   "/:id",
   validateResource(queryParamsValidator),
-  async (req: UserRequest, res: Response) => {
+  async (req: Request, res: Response) => {
     const { id } = req.params;
     const deletedList = await ExpensesListModel.findByIdAndDelete(id);
     if (!deletedList) {

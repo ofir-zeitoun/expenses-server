@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import status from "http-status";
-import { returnNew, UserRequest } from "../../db";
+import { returnNew, UserAuth } from "../../db";
 import { validateResource } from "../../routes/middlewares";
 import {
   baseUserSchemaNoId,
@@ -54,7 +54,7 @@ router.delete(
     res.status(status.OK).json(deleteUser);
   }
 );
-router.get("/check", async (req: UserRequest, res: Response) => {
+router.get("/check", async (req: Request & UserAuth, res: Response) => {
   const auth0Id = req.user?.sub;
 
   const user = await UserModel.findOne({ auth0Id });
