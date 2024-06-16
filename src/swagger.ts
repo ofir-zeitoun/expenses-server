@@ -16,7 +16,7 @@ export const options = {
     ],
     "tags": [
         {
-            "name": 'health check',
+            "name": "health check",
             "description": "Server health check"
         },
         {
@@ -30,6 +30,14 @@ export const options = {
         {
             "name": "expenses",
             "description": "Operations about expense statistics"
+        }
+    ],
+    "security": [
+        {
+            "auth0": [
+                "read",
+                "write"
+            ]
         }
     ],
     "paths": {
@@ -111,7 +119,10 @@ export const options = {
                     {
                         "name": "id",
                         "in": "path",
-                        "required": true
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "requestBody": {
@@ -149,7 +160,10 @@ export const options = {
                     {
                         "name": "id",
                         "in": "path",
-                        "required": true
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -236,25 +250,34 @@ export const options = {
                         "name": "offset",
                         "in": "query",
                         "description": "Starting index for pagination",
-                        "type": "integer"
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
                     },
                     {
                         "name": "limit",
                         "in": "query",
                         "description": "Number of items to return per page",
-                        "type": "integer"
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
                     },
                     {
                         "name": "sortOrder",
                         "in": "query",
                         "description": "Sort order (asc or desc)",
-                        "type": "string",
-                        "enum": [
-                            "asc",
-                            "desc"
-                        ]
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
+                        }
                     }
-                ], "responses": {
+                ],
+                "responses": {
                     "200": {
                         "description": "OK",
                         "content": {
@@ -336,12 +359,7 @@ export const options = {
                     "200": {
                         "description": "OK",
                         "content": {
-                            "application/json": {
-                                "type": "array",
-                                "items": {
-                                    "$ref": "#/components/schemas/Expense"
-                                }
-                            }
+                            "application/json": {}
                         }
                     }
                 }
@@ -404,8 +422,9 @@ export const options = {
                         "name": "id",
                         "in": "path",
                         "required": true,
-                        "type": "string",
-                        "description": "Unique identifier of the expense"
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -448,8 +467,9 @@ export const options = {
                         "name": "id",
                         "in": "path",
                         "required": true,
-                        "type": "string",
-                        "description": "Unique identifier of the expense"
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "requestBody": {
@@ -518,8 +538,9 @@ export const options = {
                         "name": "id",
                         "in": "path",
                         "required": true,
-                        "type": "string",
-                        "description": "Unique identifier of the expense"
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -554,6 +575,21 @@ export const options = {
         }
     },
     "components": {
+        "securitySchemes": {
+            "auth0": {
+                "type": "oauth2",
+                "flows": {
+                    "authorizationCode": {
+                        "authorizationUrl": `https://${process.env.AUTH0_DOMAIN}/authorize`,
+                        "tokenUrl": `https://${process.env.AUTH0_DOMAIN}/oauth/token`,
+                        "scopes": {
+                            "read:": "Read your data",
+                            "write:": "Modify your  data"
+                        }
+                    }
+                }
+            }
+        },
         "schemas": {
             "User": {
                 "type": "object",
@@ -589,31 +625,6 @@ export const options = {
                         "description": "Timestamp of user update (read-only)"
                     }
                 }
-            },
-            "Pagination": {
-                "type": "object",
-                "properties": {
-                    "offset": {
-                        "type": "integer",
-                        "description": "Starting index for pagination (optional)"
-                    },
-                    "limit": {
-                        "type": "integer",
-                        "description": "Number of items to return per page (optional)"
-                    },
-                    "sortOrder": {
-                        "type": "string",
-                        "description": "Sort order (asc or desc) (optional)",
-                        "enum": [
-                            "asc",
-                            "desc"
-                        ]
-                    }
-                }
-            },
-            "ID": {
-                "type": "string",
-                "description": "Unique identifier of the expense"
             },
             "Expense": {
                 "type": "object",
