@@ -1,4 +1,14 @@
-export const options = {
+export const swaggerOptions = {
+    swaggerOptions: {
+        oauth: {
+            clientId: process.env.AUTH0_CLIENT_ID,
+            clientSecret: process.env.AUTH0_CLIENT_SECRET,
+            additionalQueryStringParams: { audience: process.env.AUTH0_AUDIENCE }
+        }
+    }
+};
+
+export const swaggerDocument = {
     "openapi": "3.0.3",
     "info": {
         "title": "Expenses API Docs",

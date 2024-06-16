@@ -11,7 +11,7 @@ import {
   checkJwt,
 } from "./middlewares";
 import users from "../features/users";
-import { options } from "../swagger";
+import { swaggerDocument, swaggerOptions } from "../swagger";
 
 export const routes = (app: Express) => {
   app.get(...healthCheck);
@@ -19,9 +19,9 @@ export const routes = (app: Express) => {
   app.use(
     "/docs",
     swaggerUi.serve,
-    swaggerUi.setup(options)
+    swaggerUi.setup(swaggerDocument, swaggerOptions)
   );
-  app.use(checkJwt, () => {});
+  app.use(checkJwt, () => { });
   app.use(...users);
   app.use(...expenses);
   app.use(...expensesList);
