@@ -8,8 +8,7 @@
     "dev": "concurrently \"tsc --watch\" \"nodemon -q ./dist/index.js\"",
     "build": "tsc",
     "init-mongo": "ts-node ./scripts/init-mongo.ts",
-    "check-mongo": "ts-node ./scripts/check-mongo-connection.ts",
-    "swagger": "tsoa spec"
+    "check-mongo": "ts-node ./scripts/check-mongo-connection.ts"
   },
   "repository": {
     "type": "git",
@@ -37,7 +36,6 @@
     "http-status": "^1.7.3",
     "mongoose": "^8.0.3",
     "swagger-ui-express": "^5.0.0",
-    "tsoa": "^6.2.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
