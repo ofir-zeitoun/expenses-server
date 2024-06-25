@@ -1,9 +1,12 @@
 import swaggerUi from "swagger-ui-express";
-import { expensesListSchemaSwagger, expensesListSwagger } from "../../features/expenses-list/expenses-list.swagger";
-import { expenseSchemaSwagger, expensesSwagger } from "../../features/expenses/expenses.swagger";
-import { statsSwagger } from "../../features/stats/stats.swagger";
-import {healthCheckSwagger} from "../../features/health-check/health-check.swagger";
-import {userSchemaSwagger , userSwagger} from "../../features/users/users.swagger";
+import { expensesListSchemaSwagger } from "../../../features/expenses-list/expenses-list.swagger.schema";
+import { expensesListSwagger } from "../../../features/expenses-list/expenses-list.swagger.api";
+import { expenseSchemaSwagger } from "../../../features/expenses/expenses.swagger.schema";
+import { expensesSwagger } from "../../../features/expenses/expenses.swagger.api";
+import { statsSwagger } from "../../../features/stats/stats.swagger.api";
+import {healthCheckSwagger} from "../../../features/health-check/health-check.swagger.api";
+import {userSchemaSwagger } from "../../../features/users/users.swagger.schema";
+import {userSwagger} from "../../../features/users/users.swagger.api";
 
 export const swaggerOptions = {
     swaggerOptions: {
