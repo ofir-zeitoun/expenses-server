@@ -65,3 +65,11 @@ Start the server
 ## Roadmap
 
 - 
+
+## New issues , bug report and features
+Open a new issue or bug [here](https://github.com/ofir-zeitoun/expenses-server/issues/new).
+
+1. Add the propper title (For example Updating Readme file)
+2. Add description.
+- For issues or bugs write how to repreduce the error (Step by step guide or even a video)
+3. add coresponding label
