@@ -8,6 +8,7 @@ import {
   errorHandler,
   catchAllRequestsLastRouteHandler,
   checkJwt,
+  swagger,
   checkUserExists,
   extractUserInfo,
 } from "./middlewares";
@@ -15,7 +16,8 @@ import users from "../features/users";
 
 export const routes = (app: Express) => {
   app.get(...healthCheck);
-  app.use(checkJwt, () => {});
+  app.use(...swagger);
+  app.use(checkJwt, () => { });
   app.use(extractUserInfo);
   app.use(...users);
   app.use(checkUserExists);
