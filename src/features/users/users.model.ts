@@ -5,7 +5,6 @@ export interface User extends Document, Timestamp {
   name: string;
   phone: string;
   photo: string;
-  password: string;
   auth0Id: string;
 }
 
@@ -15,7 +14,6 @@ const userSchema = new Schema<User>(
     name: { type: String, required: true },
     phone: { type: String, required: false },
     photo: { type: String, required: false },
-    password: { type: String, required: false },
   },
   {
     timestamps: true,
