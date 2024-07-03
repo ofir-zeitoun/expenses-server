@@ -6,16 +6,16 @@ export interface User extends Document, Timestamp {
   phone: string;
   photo: string;
   password: string;
+  auth0Id: string;
 }
 
 const userSchema = new Schema<User>(
   {
+    auth0Id: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     phone: { type: String, required: false },
     photo: { type: String, required: false },
     password: { type: String, required: false },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now },
   },
   {
     timestamps: true,
