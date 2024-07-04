@@ -2,22 +2,12 @@
 # Expenses Server Node js
 
 Expenses Server is the backend component of the Expenses application, built with Node.js, Express, and TypeScript. It provides  API endpoints for user authentication, expense management, and data persistence with MongoDb.
+  ### Links
+- **Project Board**: [GitHub Project](https://github.com/users/ofir-zeitoun/projects/2)
+- **Frontend Repository**: [Expenses Client](https://github.com/ofir-zeitoun/expenses-client)
+- **Backend Repository**: [Expenses Server](https://github.com/ofir-zeitoun/expenses-server)
+- **Design (Figma)**: [Figma Design](https://www.figma.com/file/QaLtJUErrNqG1TWroa8xUa/Untitled?type=design&node-id=2-1353&mode=design&t=K6H7aqa675qbkX7G-0)
 
-
-## Installation and Usage
-
-Install dependencies with npm
-
-```bash
-  npm i
-```
-
-Run the server
-
-```bash
-  npm run dev
-```
-    
 ## Features
 
 #### User Authentication: 
@@ -34,13 +24,13 @@ Implements validation rules to ensure data integrity on the server-side using Zo
 Clone the project
 
 ```bash
-  gh repo clone ofir-zeitoun/expenses-server
+  git clone https://github.com/ofir-zeitoun/expenses-server.git
 ```
 
 Go to the project directory
 
 ```bash
-  cd my-project
+  cd expenses-server
 ```
 
 Install dependencies
@@ -49,27 +39,28 @@ Install dependencies
   npm install
 ```
 
+  Create a `.env` file in the root directory and add necessary environment variables for connections and configurations.
+
+
 Start the server
 
 ```bash
   npm run dev
 ```
 
-
 ## Technologies Used
-- Node Js with express
+- Node Js with express and Typescript
 - Swagger UI docs API
 - [Zod](https://zod.dev/) for server side validation
 - MongoDb NoSQL Database 
 
-## Roadmap
-
-- 
-
 ## New issues , bug report and features
 Open a new issue or bug [here](https://github.com/ofir-zeitoun/expenses-server/issues/new).
 
-1. Add the propper title (For example Updating Readme file)
+1. Add the proper title (For example Updating Readme file)
 2. Add description.
-- For issues or bugs write how to repreduce the error (Step by step guide or even a video)
-3. add coresponding label
+- For issues or bugs write how to reproduce the error (Step by step guide or even a video)
+3. add corresponding label (Feature, Bug , ect..)
+ 
+### License
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/ofir-zeitoun/expenses-client/blob/main/LICENSE) file for details.
