@@ -10,38 +10,34 @@ export const checkJwt = auth({
   issuerBaseURL: `https://${process.env.AUTH0_DOMAIN}`,
   audience: `${process.env.AUTH0_AUDIENCE}`,
 });
+const userProfileUrlIndex = 1;
 
-export const extractUserInfo = (
+const fetchUserInfo = async (url: string, token: string) => {
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    }
+  });
+  const user = await response.json();
+  return user;
+}
+export const extractUserInfo =  (
   req: Request & UserAuth,
   _res: Response,
   next: NextFunction
 ) => {
-  if (req.auth) {
-    if (req.auth.payload.aud) {
+  const userProfileUrl = req.auth?.payload.aud?.[userProfileUrlIndex];
+  const token = req.auth?.token;
 
-      // Need to handle to many requests
-      fetch(req.auth.payload.aud[1],
-        {
-          method: "GET",
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${req.auth.token}`,
-          }
-        }
-
-      )
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-        
-          req.user = data;
-          next();
-
-        })
-
-    }
+  if (!userProfileUrl || !token) {
+    return;//do we need next or return ?
   }
+  (async () => {
+    req.user = await fetchUserInfo(userProfileUrl, token);
+    await next();
+  })();
 
 };
 
