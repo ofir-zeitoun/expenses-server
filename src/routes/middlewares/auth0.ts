@@ -1,9 +1,8 @@
 import * as dotenv from "dotenv";
-import e, { Request, Response, NextFunction, response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { auth } from "express-oauth2-jwt-bearer";
-import { AuthRequest, UserAuth } from "../../db";
+import { UserAuth } from "../../db";
 import { UserModel } from "../../features/users/users.model";
-import status from "http-status";
 
 dotenv.config();
 

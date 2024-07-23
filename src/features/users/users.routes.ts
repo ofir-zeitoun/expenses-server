@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import status from "http-status";
-import { returnNew, UserAuth } from "../../db";
+import { returnNew } from "../../db";
 import { validateResource } from "../../routes/middlewares";
 import {
   baseUserSchemaNoId,
