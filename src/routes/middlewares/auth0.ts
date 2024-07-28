@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import { auth } from "express-oauth2-jwt-bearer";
 import { UserAuth } from "../../db";
 import { UserModel } from "../../features/users/users.model";
+import { memoize } from "../../utils";
 
 dotenv.config();
 
@@ -23,6 +24,9 @@ const fetchUserInfo = async (url: string, token: string) => {
   const user = await response.json();
   return user;
 }
+
+const memoFetchUserInfo = memoize(fetchUserInfo);
+
 export const extractUserInfo =  (
   req: Request & UserAuth,
   _res: Response,
@@ -35,7 +39,7 @@ export const extractUserInfo =  (
     return;//do we need next or return ?
   }
   (async () => {
-    req.user = await fetchUserInfo(userProfileUrl, token);
+    req.user = await memoFetchUserInfo(userProfileUrl, token);
     await next();
   })();
 
