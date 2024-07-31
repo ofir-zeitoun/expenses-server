@@ -1,7 +1,8 @@
 
 # Expenses Server Node js
 
-Expenses Server is the backend component of the Expenses application, built with Node.js, Express, and TypeScript. It provides  API endpoints for user authentication, expense management, and data persistence with MongoDb.
+Expenses Server is the backend component of the Expenses application, built with Node.js, Express, and TypeScript.
+It provides  API endpoints for user authentication, expense management, and data persistence with MongoDb and visualization with Swagger Ui.
   ### Links
 - **Project Board**: [GitHub Project](https://github.com/users/ofir-zeitoun/projects/2)
 - **Frontend Repository**: [Expenses Client](https://github.com/ofir-zeitoun/expenses-client)
@@ -59,8 +60,8 @@ Open a new issue or bug [here](https://github.com/ofir-zeitoun/expenses-server/i
 
 1. Add the proper title (For example Updating Readme file)
 2. Add description.
-- For issues or bugs write how to reproduce the error (Step by step guide or even a video)
-3. add corresponding label (Feature, Bug , ect..)
+- For issues or bugs write how to reproduce the error (Step by step guide or a video)
+1. add corresponding label (Feature, Bug , ect..)
  
 ### License
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/ofir-zeitoun/expenses-client/blob/main/LICENSE) file for details.
