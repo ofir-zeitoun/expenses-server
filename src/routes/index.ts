@@ -7,20 +7,20 @@ import stats from "../features/stats";
 import {
   errorHandler,
   catchAllRequestsLastRouteHandler,
-  checkJwt,
   swagger,
   checkUserExists,
   extractUserInfo,
+  authenticate,
 } from "./middlewares";
 import users from "../features/users";
 
 export const routes = (app: Express) => {
   app.get(...healthCheck);
   app.use(...swagger);
-  app.use(checkJwt, () => {});
+  app.use(authenticate);
   app.use(extractUserInfo);
-  app.use(...users);
   app.use(checkUserExists);
+  app.use(...users);
   app.use(...expenses);
   app.use(...expensesList);
   app.use(...stats);

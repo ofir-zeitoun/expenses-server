@@ -8,10 +8,20 @@ import { env, memoize } from "../../utils";
 
 dotenv.config();
 
-export const checkJwt = auth({
+const checkJwt = auth({
   issuerBaseURL: `https://${env.Auth0Domain}`,
   audience: `${env.Auth0Audience}`,
 });
+
+export const authenticate = (req: Request, res: Response, next: NextFunction) =>
+  checkJwt(req, res, () => {
+    if (req.auth) {
+      return next();
+    }
+    return res
+      .status(status.UNAUTHORIZED)
+      .json({ message: "User not authenticated." });
+  });
 const userProfileUrlIndex = 1;
 
 const fetchUserInfo = async (url: string, token: string) => {
@@ -33,7 +43,6 @@ export const extractUserInfo = (
   _res: Response,
   next: NextFunction
 ) => {
-  console.log("🚀 ~ userProfileUrl:");
   const userProfileUrl = req.auth?.payload.aud?.[userProfileUrlIndex];
   const token = req.auth?.token;
 
@@ -53,7 +62,9 @@ export const checkUserExists = async (
 ) => {
   if (!req.user) {
     if (!res.headersSent) {
-      return res.status(status.UNAUTHORIZED).json({ message: "User not authenticated." });
+      return res
+        .status(status.UNAUTHORIZED)
+        .json({ message: "User not authenticated." });
     }
     return;
   }
