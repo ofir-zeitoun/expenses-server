@@ -4,13 +4,14 @@ import {userSwagger,userSchemaSwagger} from "../../../features/users";
 import { expenseSchemaSwagger, expensesSwagger } from "../../../features/expenses";
 import { expensesListSchemaSwagger, expensesListSwagger } from "../../../features/expenses-list";
 import { healthCheckSwagger } from "../../../features/health-check";
+import { env } from "../../../utils";
 
 export const swaggerOptions = {
     swaggerOptions: {
         oauth: {
-            clientId: process.env.AUTH0_CLIENT_ID,
-            clientSecret: process.env.AUTH0_CLIENT_SECRET,
-            additionalQueryStringParams: { audience: process.env.AUTH0_AUDIENCE }
+            clientId: env.auth0ClientId,
+            clientSecret: env.Auth0ClientSecret,
+            additionalQueryStringParams: { audience: env.Auth0Audience }
         }
     }
 };
@@ -70,8 +71,8 @@ export const swaggerDocument = {
                 "type": "oauth2",
                 "flows": {
                     "authorizationCode": {
-                        "authorizationUrl": `https://${process.env.AUTH0_DOMAIN}/authorize`,
-                        "tokenUrl": `https://${process.env.AUTH0_DOMAIN}/oauth/token`,
+                        "authorizationUrl": `https://${env.Auth0Domain}/authorize`,
+                        "tokenUrl": `https://${env.Auth0Domain}/oauth/token`,
                         "scopes": {
                             "read:": "Read your data",
                             "write:": "Modify your  data"

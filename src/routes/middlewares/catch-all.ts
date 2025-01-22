@@ -5,5 +5,5 @@ export const catchAllRequestsLastRouteHandler = (
   _req: Request,
   res: Response
 ) => {
-  res.status(status.NOT_FOUND).send();
+  res.status(status.NOT_FOUND).send("NOT_FOUND");
 };

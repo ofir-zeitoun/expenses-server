@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
+import { env } from "../utils";
 
 export const connect = async () => {
   try {
-    const uri = process.env.DBUri || "mongodb://127.0.0.1:27017";
+    const uri = env.dbUri;
     const res = await mongoose.connect(uri);
     console.log("🚀 ~ file: connect.ts:9 ~ connect ~ mongoose: connected");
     return res;

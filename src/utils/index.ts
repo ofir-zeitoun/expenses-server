@@ -1,1 +1,2 @@
-export * from './memoize';
+export * from "./env-config";
+export * from "./memoize";

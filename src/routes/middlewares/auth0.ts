@@ -1,15 +1,16 @@
 import * as dotenv from "dotenv";
 import { Request, Response, NextFunction } from "express";
 import { auth } from "express-oauth2-jwt-bearer";
+import status from "http-status";
 import { UserAuth } from "../../db";
 import { UserModel } from "../../features/users/users.model";
-import { memoize } from "../../utils";
+import { env, memoize } from "../../utils";
 
 dotenv.config();
 
 export const checkJwt = auth({
-  issuerBaseURL: `https://${process.env.AUTH0_DOMAIN}`,
-  audience: `${process.env.AUTH0_AUDIENCE}`,
+  issuerBaseURL: `https://${env.Auth0Domain}`,
+  audience: `${env.Auth0Audience}`,
 });
 const userProfileUrlIndex = 1;
 
@@ -17,32 +18,32 @@ const fetchUserInfo = async (url: string, token: string) => {
   const response = await fetch(url, {
     method: "GET",
     headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-    }
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
   });
   const user = await response.json();
   return user;
-}
+};
 
 const memoFetchUserInfo = memoize(fetchUserInfo);
 
-export const extractUserInfo =  (
+export const extractUserInfo = (
   req: Request & UserAuth,
   _res: Response,
   next: NextFunction
 ) => {
+  console.log("🚀 ~ userProfileUrl:");
   const userProfileUrl = req.auth?.payload.aud?.[userProfileUrlIndex];
   const token = req.auth?.token;
 
   if (!userProfileUrl || !token) {
-    return;//do we need next or return ?
+    return; //do we need next or return ?
   }
   (async () => {
     req.user = await memoFetchUserInfo(userProfileUrl, token);
     await next();
   })();
-
 };
 
 export const checkUserExists = async (
@@ -50,10 +51,9 @@ export const checkUserExists = async (
   res: Response,
   next: NextFunction
 ) => {
-
   if (!req.user) {
     if (!res.headersSent) {
-      return res.status(401).json({ message: "User not authenticated." });
+      return res.status(status.UNAUTHORIZED).json({ message: "User not authenticated." });
     }
     return;
   }
@@ -70,14 +70,10 @@ export const checkUserExists = async (
     await newUser.save();
     req.userId = newUser._id;
     console.log("Created New user");
-  }
-  else {
+  } else {
     req.userId = user._id;
     console.log("Found existing user");
-
   }
-
-
 
   if (!res.headersSent) {
     // next(); //TODO fix the bug that using the next() make
