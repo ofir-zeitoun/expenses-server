@@ -29,13 +29,13 @@ router.get(
     const limitNumber = parseInt(req.query.limit);
 
     const lists = await ExpensesListModel.find({})
-      .populate("creator")
+      .populate({
+        path: "users",
+        select: "name photo",
+      })
       .populate({
         path: "expenses",
-        populate: {
-          path: "creator",
-          select: "name photo",
-        },
+        select: "name price",
       })
       .sort({ createdAt: req.query.sortOrder === "asc" ? 1 : -1 })
       .skip(offsetNumber)
